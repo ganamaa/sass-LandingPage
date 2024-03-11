@@ -1,0 +1,328 @@
+@import "./media-queries";
+$primary-color: #FFEFE7;
+$secondary-color: #FFDAC6;
+$tertiary-color: #BABD8D;
+$primary-text-color: #7C6A0A;
+$quaternary-color: #E86424;
+$font-stack: "IBM Plex Sans", sans-serif;
+$paragraph-size: 1.5em;
+
+@mixin flexCenter($direction, $content: null, $aling: null, $rowgap: null, $columngap: null) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $content;
+    align-items: $aling;
+    row-gap: $rowgap;
+    column-gap: $columngap;
+}
+
+@mixin iconStyle($color, $width: null, $height: null, $hovercolor: null) {
+    svg {
+        width: $width;
+        height: $height;
+
+        path {
+            stroke: $color;
+        }
+    }
+
+    svg:hover {
+        fill: $hovercolor;
+    }
+}
+
+@mixin buttonStyle {
+    button {
+        background: none;
+        border-style: none;
+        color: $primary-text-color;
+    }
+}
+
+@mixin sizeStyle($width, $height, $radius) {
+    width: $width;
+    height: $height;
+    border-radius: $radius;
+}
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: $primary-color;
+    font-family: $font-stack;
+}
+
+nav {
+    width: auto;
+    color: $primary-text-color;
+    padding: 15px;
+    @include flexCenter(row, space-between, center);
+
+    p {
+        font-size: $paragraph-size;
+        padding-left: 30px;
+    }
+
+    .icons {
+        @include flexCenter(row, null, null, 15px, 15px);
+        @include buttonStyle;
+        @include iconStyle($primary-text-color, 25px, 25px);
+    }
+}
+
+article {
+    width: auto;
+    color: $primary-text-color;
+    padding-inline: 45px;
+    @include flexCenter(row, space-between, center, null, 10%);
+
+    .impact-section {
+        text-align: center;
+
+        h1 {
+            font-size: 3.75em;
+            text-align: start;
+            margin-bottom: 5%;
+        }
+
+        p {
+            font-size: $paragraph-size;
+            text-align: justify;
+        }
+
+        @include buttonStyle;
+
+        button {
+            @include sizeStyle(150px, auto, 35px);
+            margin-top: 10%;
+            padding: 20px;
+            background-color: $quaternary-color;
+            color: white;
+            font-size: 1em;
+
+            &:hover {
+                transform: scale(1.1);
+                transition: transform 0.3s ease;
+            }
+        }
+    }
+
+    img {
+        @include sizeStyle(30vw, auto, 19px);
+    }
+
+    @include tablet {
+        @include flexCenter(column-reverse, space-between, center, 40px);
+
+        .image-section img {
+            width: 90vw;
+            height: 80vh;
+            object-fit: fill;
+        }
+    }
+}
+
+section {
+    width: 100%;
+    height: auto;
+    padding: 60px;
+
+    h2 {
+        color: $primary-text-color;
+        font-size: 3em;
+    }
+
+    .healthcare {
+        padding-bottom: 60px;
+
+        h2 {
+            font-weight: 300;
+            padding-bottom: 60px;
+        }
+
+        .card-section {
+            @include flexCenter(row, space-between, center, 40px, 5%);
+            flex-wrap: wrap;
+
+            .product-card {
+                @include sizeStyle(20vw, auto, 8px);
+                background-color: $secondary-color;
+                color: $primary-text-color;
+                padding: 20px;
+
+                .icon {
+                    @include flexCenter(row, end);
+                    @include iconStyle($primary-text-color, 20px, 20px);
+                    width: 100%;
+                    padding-bottom: 12px;
+                    padding-left: 0px;
+                }
+
+                img {
+                    @include sizeStyle(15vw, 40vh, 6px);
+                    object-fit: cover;
+                    object-position: center;
+                }
+            }
+
+            @include mobile {
+                @include flexCenter(column);
+
+                .product-card {
+                    width: 70vw;
+
+                    img {
+                        width: 60vw;
+                        height: 70vh;
+                    }
+                }
+
+            }
+        }
+    }
+
+    .furniture {
+        @extend .healthcare;
+
+        .card-section .product-card {
+            background-color: $tertiary-color;
+            color: white;
+        }
+
+        .card-section .product-card .icon {
+            @include iconStyle(white);
+        }
+    }
+
+    .about-us {
+
+        @extend .healthcare;
+
+        h2 {
+            font-weight: bold;
+        }
+
+        .mission-section {
+            flex-wrap: nowrap;
+        }
+
+        .mission-section .earth {
+            display: contents;
+
+            svg {
+                width: 30vw;
+            }
+
+            p {
+                color: $quaternary-color;
+                text-align: center;
+                font-size: $paragraph-size;
+            }
+        }
+
+        .mission-section .innovation {
+            @extend .earth;
+        }
+    }
+
+    .gallery {
+        @extend .about-us;
+
+        .gallerry-images {
+            flex-wrap: nowrap;
+            align-items: center;
+
+            img {
+                @include sizeStyle(30vw, 60vh, 16px);
+                aspect-ratio: 1/1;
+                object-fit: contain;
+                transition: transform 0.3s ease;
+
+                &:hover {
+                    transform: scale(1.1);
+                    transition: transform 0.3s ease;
+                }
+            }
+
+            @include tablet {
+                @include flexCenter(column);
+
+                img {
+                    width: 80vw;
+                    height: 70vh;
+                }
+            }
+        }
+    }
+
+    .location {
+        padding-bottom: 120px;
+        color: $quaternary-color;
+
+        .map iframe {
+            width: 100%;
+            margin-top: 70px;
+
+            @include tablet {
+                height: 420px;
+            }
+
+            @include mobile {
+                height: 280px;
+            }
+        }
+
+        .reference {
+            margin: 30px 0 10px;
+            font-size: 35px;
+            font-weight: 400;
+        }
+
+        .direction {
+            margin: 10px 0 30px;
+            font-size: 25px;
+        }
+        @include tablet() {
+            .reference{
+                font-size: 1.5em;
+            }
+            .direction{
+                font-size: 1em;
+            }
+        }
+    }
+
+    @include tablet() {
+        padding-block: 30px;
+        h2{
+            font-size: 2em;
+        }
+    }
+}
+
+
+
+footer {
+    background-color: $quaternary-color;
+    width: 100%;
+    height: auto;
+    color: white;
+    padding: 70px;
+
+    .social-media {
+        @include flexCenter(row,center , center, 10% , 10% );
+        padding-top: 20px;
+    }
+
+    @include tablet() {
+        padding-inline: 30px;
+        padding-block: 40px;
+    }
+}
